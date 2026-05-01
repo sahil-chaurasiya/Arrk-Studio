@@ -8,7 +8,7 @@
     "server": "cd server && npm run dev",
     "client": "cd client && npm run dev",
     "install-all": "npm install && cd server && npm install && cd ../client && npm install",
-    "build": "cd client && npm run build"
+    "build": "echo 'No build step needed'"
   },
   "devDependencies": {
     "concurrently": "^8.2.2"
