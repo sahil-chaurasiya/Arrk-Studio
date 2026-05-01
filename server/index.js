@@ -3,11 +3,19 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
+const rateLimit = require('express-rate-limit');
 
 dotenv.config();
 
 const app = express();
 
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // max 10 login attempts per IP
+  message: { message: 'Too many login attempts, please try again later.' }
+});
+
+app.use('/api/auth/login', loginLimiter);
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
