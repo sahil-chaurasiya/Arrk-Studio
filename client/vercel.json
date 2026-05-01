@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://darkgreen-octopus-559289.hostingersite.com/api/:path*"
+    }
+  ]
+}
