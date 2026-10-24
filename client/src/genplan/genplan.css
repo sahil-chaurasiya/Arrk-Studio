@@ -8,7 +8,7 @@
 /* home: aerial + hotspots (image box keeps aspect so % dots stay pinned) */
 .gp-home { display:grid; place-items:center }
 .gp-imgbox { position:relative; width:min(100vw, 100vh*1.919); aspect-ratio:1280/667; overflow:visible }
-.gp-l { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; display:block; max-width:none }
+.gp-bg { width:100%; height:100%; object-fit:cover; display:block; max-width:none }
 .gp-shade { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65)), linear-gradient(transparent 70%, rgba(0,0,0,.7)) }
 .gp-head { position:absolute; top:0; left:0; right:0; z-index:5; display:flex; justify-content:space-between; align-items:center; padding:22px 34px }
 .gp-back-site, .gp-hint, .gp-back { font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#fff; padding:9px 16px; border:1px solid rgba(255,255,255,.3); border-radius:99px; background:rgba(15,15,16,.45); backdrop-filter:blur(10px); transition:.2s }
@@ -54,60 +54,14 @@
   .gp-head { padding:14px 16px } .gp-brand { font-size:18px } .gp-hint { display:none }
 }
 
-/* ===== construction-phase intro (all timings mirror PHASE_AT in GenPlan.jsx) ===== */
-.gp-dock button { color:#fff; background:none; border:0; cursor:pointer; font:500 12px 'DM Sans'; letter-spacing:.06em; padding:10px 16px; border-radius:99px; white-space:nowrap; transition:.2s }
-.gp-dock button:hover { background:var(--gold); color:#111 }
-.gp-skip { cursor:pointer; font-family:inherit }
-.gp-fadein { animation:gp-fi .8s both }
-@keyframes gp-fi { from{opacity:0; transform:translate(-50%,10px)} }
-.gp-pop { animation:gp-pop .6s var(--d) both }
-@keyframes gp-pop { from{opacity:0; transform:scale(.2)} }
-
-/* layers hidden unless building */
-.gp-l-site,.gp-l-grid,.gp-scan,.gp-l-green,.gp-l-struct,.gp-l-warm { display:none }
-.gp-l-base { opacity:0; transition:opacity .9s ease }
-.gp-l-glow { opacity:0; mix-blend-mode:screen; filter:url(#gp-glow); -webkit-mask-image:linear-gradient(transparent 26%,#000 36%); mask-image:linear-gradient(transparent 26%,#000 36%) }
-.gp-done .gp-l-base { opacity:1 }
-.gp-done .gp-l-glow { opacity:.45 }
-.gp-done .gp-l-glow { transition:opacity 1.2s }
-
-.gp-building .gp-l-site,.gp-building .gp-l-grid,.gp-building .gp-scan,.gp-building .gp-l-green,.gp-building .gp-l-struct,.gp-building .gp-l-warm { display:block }
-
-/* 01 site & groundwork: blueprint-style ground wipes in left to right */
-.gp-l-site { filter:grayscale(1) contrast(1.15) brightness(.5); animation:gp-wipe 2.4s ease-out both }
-.gp-l-grid { background:
-    linear-gradient(rgba(120,170,255,.35) 1px,transparent 1px) 0 0/48px 48px,
-    linear-gradient(90deg,rgba(120,170,255,.35) 1px,transparent 1px) 0 0/48px 48px,
-    rgba(20,50,110,.38);
-  mix-blend-mode:screen; animation:gp-wipe 2.4s ease-out both, gp-gridout 1.6s 5.6s forwards }
-.gp-scan { width:3px; left:0; right:auto; background:linear-gradient(transparent,#9cc4ff,transparent); box-shadow:0 0 22px 6px rgba(130,180,255,.6); animation:gp-scan 2.4s ease-out both }
-@keyframes gp-wipe { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0 0 0)} }
-@keyframes gp-scan { from{left:0; opacity:1} 92%{opacity:1} to{left:calc(100% - 3px); opacity:0} }
-@keyframes gp-gridout { to{opacity:0} }
-
-/* 02 landscaping: trees & lawns grow up from the ground (green isolated from the render) */
-.gp-l-green { filter:url(#gp-green) saturate(1.2) brightness(.95); animation:gp-rise 2.4s 2.6s ease-in-out both;
-  -webkit-mask-image:linear-gradient(to top,#000 33%,transparent 50%); mask-image:linear-gradient(to top,#000 33%,transparent 50%);
-  -webkit-mask-size:100% 300%; mask-size:100% 300%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat }
-/* 03 structures: buildings rise */
-.gp-l-struct { filter:brightness(.72) saturate(.82); animation:gp-rise 3s 5s ease-in-out both, gp-light 2.4s 8.2s ease-in-out forwards;
-  -webkit-mask-image:linear-gradient(to top,#000 33%,transparent 50%); mask-image:linear-gradient(to top,#000 33%,transparent 50%);
-  -webkit-mask-size:100% 300%; mask-size:100% 300%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat }
-@keyframes gp-rise { from{-webkit-mask-position:0 0%; mask-position:0 0%} to{-webkit-mask-position:0 100%; mask-position:0 100%} }
-/* 04 lighting & finishing: grade lifts, windows and lamps bloom, warm sunset wash */
-@keyframes gp-light { to{filter:brightness(1) saturate(1)} }
-.gp-building .gp-l-glow { animation:gp-glowin 2.4s 8.2s ease-in both }
-@keyframes gp-glowin { from{opacity:0} to{opacity:.7} }
-.gp-l-warm { background:radial-gradient(ellipse at 85% 18%, rgba(255,170,80,.45), transparent 60%); mix-blend-mode:soft-light; opacity:0; animation:gp-glowin 2.4s 8.4s ease-in both }
-
-/* progress HUD (takes the dock's place while building) */
-.gp-hud { position:absolute; left:50%; bottom:28px; transform:translateX(-50%); z-index:5; min-width:300px; padding:14px 22px 16px; text-align:center; border-radius:18px; background:rgba(15,15,16,.6); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.18) }
-.gp-hud-title { font-size:12px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:10px; animation:gp-fi2 .5s both }
-.gp-hud-title b { color:var(--gold); font-weight:600; margin-right:8px }
-@keyframes gp-fi2 { from{opacity:0} }
-.gp-steps { display:flex; gap:6px }
-.gp-steps i { flex:1; height:3px; border-radius:3px; background:rgba(255,255,255,.18); overflow:hidden; position:relative }
-.gp-steps i.ok { background:var(--gold) }
-.gp-steps i.now::after { content:''; position:absolute; inset:0; background:var(--gold); transform-origin:left; animation:gp-fill 2.4s linear both }
-@keyframes gp-fill { from{transform:scaleX(0)} }
-@media (prefers-reduced-motion: reduce) { .gp-l, .gp-hud-title, .gp-pop, .gp-fadein { animation:none !important } }
+/* smooth page transitions: new page fades in, old page fades out before navigating */
+.gp { animation:gp-enter .7s ease backwards; transition:opacity .3s ease }
+.gp.gp-leaving { opacity:0; pointer-events:none }
+@keyframes gp-enter { from { opacity:0; transform:scale(1.015) } }
+.gp-head, .gp-dock, .gp-side { animation:gp-rise-in .8s .15s ease backwards }
+.gp-dot { animation:gp-pop .6s calc(.3s + var(--d, 0s)) ease backwards }
+@keyframes gp-rise-in { from { opacity:0; transform:translateY(10px) } }
+.gp-dock { animation-name:gp-dock-in }
+@keyframes gp-dock-in { from { opacity:0; transform:translate(-50%,10px) } }
+@keyframes gp-pop { from { opacity:0; transform:scale(.3) } }
+@media (prefers-reduced-motion: reduce) { .gp, .gp-head, .gp-dock, .gp-side, .gp-dot { animation:none !important } }
