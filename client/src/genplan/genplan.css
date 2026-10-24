@@ -1,0 +1,113 @@
+.gp { --gold:#c9a96e; position:fixed; inset:0; z-index:60; background:#0a0a0a; color:#fff; font-family:'DM Sans',sans-serif; overflow:hidden }
+.gp * { box-sizing:border-box }
+.gp a { text-decoration:none }
+.gp-brand { text-shadow:0 2px 14px rgba(0,0,0,.7); font-family:'Cormorant Garamond',serif; font-size:28px; letter-spacing:.14em; text-transform:uppercase }
+.gp-brand i { color:var(--gold); font-style:normal }
+.gp-brand.sm { font-size:18px }
+
+/* home: aerial + hotspots (image box keeps aspect so % dots stay pinned) */
+.gp-home { display:grid; place-items:center }
+.gp-imgbox { position:relative; width:min(100vw, 100vh*1.919); aspect-ratio:1280/667; overflow:visible }
+.gp-l { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; pointer-events:none; display:block; max-width:none }
+.gp-shade { position:absolute; inset:0; pointer-events:none; background:radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.65)), linear-gradient(transparent 70%, rgba(0,0,0,.7)) }
+.gp-head { position:absolute; top:0; left:0; right:0; z-index:5; display:flex; justify-content:space-between; align-items:center; padding:22px 34px }
+.gp-back-site, .gp-hint, .gp-back { font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:#fff; padding:9px 16px; border:1px solid rgba(255,255,255,.3); border-radius:99px; background:rgba(15,15,16,.45); backdrop-filter:blur(10px); transition:.2s }
+.gp-hint { opacity:.75 }
+.gp-back-site:hover, .gp-back:hover { background:var(--gold); color:#111 }
+
+.gp-dot { position:absolute; z-index:3; width:0; height:0; border:0; background:none; cursor:pointer; color:inherit; font:inherit }
+.gp-core { position:absolute; left:-9px; top:-9px; width:18px; height:18px; border-radius:50%; background:var(--gold); border:3px solid #fff; box-shadow:0 2px 14px rgba(0,0,0,.5); transition:transform .25s }
+.gp-pulse { position:absolute; left:-9px; top:-9px; width:18px; height:18px; border-radius:50%; background:var(--gold); animation:gp-p 2.2s var(--d) infinite }
+@keyframes gp-p { 0%{transform:scale(1);opacity:.7} 100%{transform:scale(3.2);opacity:0} }
+.gp-dot:hover .gp-core { transform:scale(1.35) }
+.gp-label { position:absolute; left:50%; bottom:20px; transform:translate(-50%,6px); white-space:nowrap; padding:7px 14px; font-size:12px; font-weight:600; letter-spacing:.08em; background:rgba(15,15,16,.72); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.25); border-radius:99px; opacity:0; transition:.25s; pointer-events:none }
+.gp-dot:hover .gp-label, .gp-dot:focus-visible .gp-label { opacity:1; transform:translate(-50%,0) }
+
+.gp-dock { position:absolute; bottom:24px; left:50%; transform:translateX(-50%); z-index:5; display:flex; gap:6px; padding:6px; border-radius:99px; background:rgba(15,15,16,.55); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.18); max-width:94vw; overflow-x:auto }
+.gp-dock a { color:#fff; font:500 12px 'DM Sans'; letter-spacing:.06em; padding:10px 16px; border-radius:99px; white-space:nowrap; transition:.2s }
+.gp-dock a:hover { background:var(--gold); color:#111 }
+
+/* place page: video stage + side details */
+.gp-page { display:grid; grid-template-columns:1fr 400px; grid-template-rows:minmax(0,100%) }
+.gp-stage { position:relative; overflow:hidden; background:#000; display:grid; place-items:center }
+.gp-blur { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:blur(40px) brightness(.45); transform:scale(1.2) }
+.gp-main { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; animation:gp-f .5s }
+@keyframes gp-f { from{opacity:0} }
+.gp-soon { position:relative; letter-spacing:.3em; text-transform:uppercase; font-size:14px; padding:14px 26px; border:1px solid rgba(255,255,255,.35); border-radius:99px; backdrop-filter:blur(12px) }
+.gp-back { position:absolute; top:22px; left:24px; z-index:3 }
+.gp-side { padding:28px; display:flex; flex-direction:column; gap:16px; overflow-y:auto; background:linear-gradient(#141415,#0a0a0a); border-left:1px solid rgba(255,255,255,.08) }
+.gp-box { padding:22px; border-radius:18px; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1) }
+.gp-box small { color:var(--gold); letter-spacing:.22em; text-transform:uppercase; font-size:11px }
+.gp-box h1 { font:600 38px/1.1 'Cormorant Garamond',serif; margin:6px 0 10px }
+.gp-box p { opacity:.72; font-size:14px; line-height:1.65 }
+.gp-list { display:flex; flex-direction:column }
+.gp-list small { margin-bottom:8px }
+.gp-list a { display:flex; justify-content:space-between; align-items:center; padding:11px 4px; color:#fff; font-size:14px; border-top:1px solid rgba(255,255,255,.08); transition:.2s }
+.gp-list a em { font-style:normal; font-size:11px; opacity:.5; letter-spacing:.1em; text-transform:uppercase }
+.gp-list a:hover, .gp-list a.on { color:var(--gold); padding-left:10px }
+.gp-cta { margin-top:auto; text-align:center; padding:16px; border-radius:14px; background:var(--gold); color:#111; font-weight:600; font-size:14px; transition:.2s }
+.gp-cta:hover { filter:brightness(1.1) }
+
+@media (max-width:900px) {
+  .gp-page { grid-template-columns:1fr; grid-template-rows:56vh auto; overflow-y:auto }
+  .gp-side { border-left:0; overflow:visible }
+  .gp-head { padding:14px 16px } .gp-brand { font-size:18px } .gp-hint { display:none }
+}
+
+/* ===== construction-phase intro (all timings mirror PHASE_AT in GenPlan.jsx) ===== */
+.gp-dock button { color:#fff; background:none; border:0; cursor:pointer; font:500 12px 'DM Sans'; letter-spacing:.06em; padding:10px 16px; border-radius:99px; white-space:nowrap; transition:.2s }
+.gp-dock button:hover { background:var(--gold); color:#111 }
+.gp-skip { cursor:pointer; font-family:inherit }
+.gp-fadein { animation:gp-fi .8s both }
+@keyframes gp-fi { from{opacity:0; transform:translate(-50%,10px)} }
+.gp-pop { animation:gp-pop .6s var(--d) both }
+@keyframes gp-pop { from{opacity:0; transform:scale(.2)} }
+
+/* layers hidden unless building */
+.gp-l-site,.gp-l-grid,.gp-scan,.gp-l-green,.gp-l-struct,.gp-l-warm { display:none }
+.gp-l-base { opacity:0; transition:opacity .9s ease }
+.gp-l-glow { opacity:0; mix-blend-mode:screen; filter:url(#gp-glow); -webkit-mask-image:linear-gradient(transparent 26%,#000 36%); mask-image:linear-gradient(transparent 26%,#000 36%) }
+.gp-done .gp-l-base { opacity:1 }
+.gp-done .gp-l-glow { opacity:.45 }
+.gp-done .gp-l-glow { transition:opacity 1.2s }
+
+.gp-building .gp-l-site,.gp-building .gp-l-grid,.gp-building .gp-scan,.gp-building .gp-l-green,.gp-building .gp-l-struct,.gp-building .gp-l-warm { display:block }
+
+/* 01 site & groundwork: blueprint-style ground wipes in left to right */
+.gp-l-site { filter:grayscale(1) contrast(1.15) brightness(.5); animation:gp-wipe 2.4s ease-out both }
+.gp-l-grid { background:
+    linear-gradient(rgba(120,170,255,.35) 1px,transparent 1px) 0 0/48px 48px,
+    linear-gradient(90deg,rgba(120,170,255,.35) 1px,transparent 1px) 0 0/48px 48px,
+    rgba(20,50,110,.38);
+  mix-blend-mode:screen; animation:gp-wipe 2.4s ease-out both, gp-gridout 1.6s 5.6s forwards }
+.gp-scan { width:3px; left:0; right:auto; background:linear-gradient(transparent,#9cc4ff,transparent); box-shadow:0 0 22px 6px rgba(130,180,255,.6); animation:gp-scan 2.4s ease-out both }
+@keyframes gp-wipe { from{clip-path:inset(0 100% 0 0)} to{clip-path:inset(0 0 0 0)} }
+@keyframes gp-scan { from{left:0; opacity:1} 92%{opacity:1} to{left:calc(100% - 3px); opacity:0} }
+@keyframes gp-gridout { to{opacity:0} }
+
+/* 02 landscaping: trees & lawns grow up from the ground (green isolated from the render) */
+.gp-l-green { filter:url(#gp-green) saturate(1.2) brightness(.95); animation:gp-rise 2.4s 2.6s ease-in-out both;
+  -webkit-mask-image:linear-gradient(to top,#000 33%,transparent 50%); mask-image:linear-gradient(to top,#000 33%,transparent 50%);
+  -webkit-mask-size:100% 300%; mask-size:100% 300%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat }
+/* 03 structures: buildings rise */
+.gp-l-struct { filter:brightness(.72) saturate(.82); animation:gp-rise 3s 5s ease-in-out both, gp-light 2.4s 8.2s ease-in-out forwards;
+  -webkit-mask-image:linear-gradient(to top,#000 33%,transparent 50%); mask-image:linear-gradient(to top,#000 33%,transparent 50%);
+  -webkit-mask-size:100% 300%; mask-size:100% 300%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat }
+@keyframes gp-rise { from{-webkit-mask-position:0 0%; mask-position:0 0%} to{-webkit-mask-position:0 100%; mask-position:0 100%} }
+/* 04 lighting & finishing: grade lifts, windows and lamps bloom, warm sunset wash */
+@keyframes gp-light { to{filter:brightness(1) saturate(1)} }
+.gp-building .gp-l-glow { animation:gp-glowin 2.4s 8.2s ease-in both }
+@keyframes gp-glowin { from{opacity:0} to{opacity:.7} }
+.gp-l-warm { background:radial-gradient(ellipse at 85% 18%, rgba(255,170,80,.45), transparent 60%); mix-blend-mode:soft-light; opacity:0; animation:gp-glowin 2.4s 8.4s ease-in both }
+
+/* progress HUD (takes the dock's place while building) */
+.gp-hud { position:absolute; left:50%; bottom:28px; transform:translateX(-50%); z-index:5; min-width:300px; padding:14px 22px 16px; text-align:center; border-radius:18px; background:rgba(15,15,16,.6); backdrop-filter:blur(16px); border:1px solid rgba(255,255,255,.18) }
+.gp-hud-title { font-size:12px; letter-spacing:.2em; text-transform:uppercase; margin-bottom:10px; animation:gp-fi2 .5s both }
+.gp-hud-title b { color:var(--gold); font-weight:600; margin-right:8px }
+@keyframes gp-fi2 { from{opacity:0} }
+.gp-steps { display:flex; gap:6px }
+.gp-steps i { flex:1; height:3px; border-radius:3px; background:rgba(255,255,255,.18); overflow:hidden; position:relative }
+.gp-steps i.ok { background:var(--gold) }
+.gp-steps i.now::after { content:''; position:absolute; inset:0; background:var(--gold); transform-origin:left; animation:gp-fill 2.4s linear both }
+@keyframes gp-fill { from{transform:scaleX(0)} }
+@media (prefers-reduced-motion: reduce) { .gp-l, .gp-hud-title, .gp-pop, .gp-fadein { animation:none !important } }
