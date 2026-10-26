@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, ChevronDown } from 'lucide-react'
 import Layout from '../components/Layout'
-import { ENABLE_GENPLAN } from '../genplan/config'
+import { SHOW_GENPLAN_LINKS, GENPLAN_BASE } from '../genplan/config'
 import ProjectCard from '../components/ProjectCard'
 import { projectsAPI, servicesAPI, testimonialsAPI, settingsAPI } from '../utils/api'
 
@@ -92,8 +92,8 @@ export default function Home() {
               <Link to="/contact" className="btn-outline">
                 Start a Project
               </Link>
-              {ENABLE_GENPLAN && (
-                <Link to="/genplan" className="btn-outline">
+              {SHOW_GENPLAN_LINKS && (
+                <Link to={GENPLAN_BASE} className="btn-outline">
                   Explore Master Plan <ArrowUpRight size={16} />
                 </Link>
               )}

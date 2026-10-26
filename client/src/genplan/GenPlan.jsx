@@ -1,5 +1,7 @@
+import { useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { HOTSPOTS as spots, AERIAL } from './data'
+import { GENPLAN_BASE } from './config'
 import './genplan.css'
 
 // fade the current page out, then navigate (the next page fades in via CSS)
@@ -14,6 +16,13 @@ function useFadeNav() {
   }
 }
 
+function useNoIndex() {
+  useEffect(() => {
+    const m = document.createElement('meta'); m.name = 'robots'; m.content = 'noindex,nofollow'
+    document.head.appendChild(m); return () => m.remove()
+  }, [])
+}
+
 function FadeLink({ to, children, ...rest }) {
   const fade = useFadeNav()
   return (
@@ -26,6 +35,7 @@ function FadeLink({ to, children, ...rest }) {
 }
 
 export function GenPlanHome() {
+  useNoIndex()
   const fade = useFadeNav()
   return (
     <div className="gp gp-home">
@@ -33,7 +43,7 @@ export function GenPlanHome() {
         <img className="gp-bg" src={AERIAL} alt="Master plan aerial view" />
         {spots.map((s, i) => (
           <button key={s.slug} className="gp-dot" style={{ left: `${s.x}%`, top: `${s.y}%`, '--d': `${i * 0.25}s` }}
-                  onClick={() => fade(`/genplan/${s.slug}`)} aria-label={s.title}>
+                  onClick={() => fade(`${GENPLAN_BASE}/${s.slug}`)} aria-label={s.title}>
             <span className="gp-pulse" /><span className="gp-core" />
             <span className="gp-label">{s.title}</span>
           </button>
@@ -46,23 +56,24 @@ export function GenPlanHome() {
         <span className="gp-hint">Tap a point to explore</span>
       </header>
       <nav className="gp-dock">
-        {spots.map(s => <FadeLink key={s.slug} to={`/genplan/${s.slug}`}>{s.title}</FadeLink>)}
+        {spots.map(s => <FadeLink key={s.slug} to={`${GENPLAN_BASE}/${s.slug}`}>{s.title}</FadeLink>)}
       </nav>
     </div>
   )
 }
 
 export function GenPlanPlace() {
+  useNoIndex()
   const { slug } = useParams()
   const i = spots.findIndex(s => s.slug === slug)
   const s = spots[i]
-  if (!s) return <div className="gp gp-page"><FadeLink className="gp-back" to="/genplan">← Master plan</FadeLink></div>
+  if (!s) return <div className="gp gp-page"><FadeLink className="gp-back" to={GENPLAN_BASE}>← Master plan</FadeLink></div>
   const next = spots[(i + 1) % spots.length]
 
   return (
     <div className="gp gp-page" key={slug}>
       <section className="gp-stage">
-        <FadeLink className="gp-back" to="/genplan">← Master plan</FadeLink>
+        <FadeLink className="gp-back" to={GENPLAN_BASE}>← Master plan</FadeLink>
         {s.video ? (
           <>
             <video className="gp-blur" key={s.video + 'b'} src={s.video} autoPlay muted loop playsInline />
@@ -86,12 +97,12 @@ export function GenPlanPlace() {
         <div className="gp-box gp-list">
           <small>Explore more</small>
           {spots.map(o => (
-            <FadeLink key={o.slug} to={`/genplan/${o.slug}`} className={o.slug === slug ? 'on' : ''}>
+            <FadeLink key={o.slug} to={`${GENPLAN_BASE}/${o.slug}`} className={o.slug === slug ? 'on' : ''}>
               <span>{o.title}</span><em>{o.tag}</em>
             </FadeLink>
           ))}
         </div>
-        <FadeLink className="gp-cta" to={`/genplan/${next.slug}`}>Next: {next.title} →</FadeLink>
+        <FadeLink className="gp-cta" to={`${GENPLAN_BASE}/${next.slug}`}>Next: {next.title} →</FadeLink>
       </aside>
     </div>
   )
