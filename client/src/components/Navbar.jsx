@@ -2,11 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ENABLE_GENPLAN } from '../genplan/config'
 
 const navLinks = [
   { label: 'Projects', href: '/projects' },
   { label: 'Services', href: '/services' },
-  { label: 'Master Plan', href: '/genplan' },
+  ...(ENABLE_GENPLAN ? [{ label: 'Master Plan', href: '/genplan' }] : []),
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]

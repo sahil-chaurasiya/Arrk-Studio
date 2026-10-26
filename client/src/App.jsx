@@ -10,6 +10,7 @@ import Services from './pages/Services'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import { GenPlanHome, GenPlanPlace } from './genplan/GenPlan'
+import { ENABLE_GENPLAN } from './genplan/config'
 
 // Admin pages
 import AdminLogin from './pages/admin/Login'
@@ -51,8 +52,8 @@ export default function App() {
           <Route path="/services" element={<Services />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/genplan" element={<GenPlanHome />} />
-          <Route path="/genplan/:slug" element={<GenPlanPlace />} />
+          {ENABLE_GENPLAN && <Route path="/genplan" element={<GenPlanHome />} />}
+          {ENABLE_GENPLAN && <Route path="/genplan/:slug" element={<GenPlanPlace />} />}
 
           {/* Admin */}
           <Route path="/admin/login" element={<AdminLogin />} />
